@@ -109,7 +109,9 @@ export const PaymentProvider = ({ children }) => {
     });
   };
 
-
+  /* ─────────────────────────────────
+     Load cards & payments once
+  ──────────────────────────────────*/
   useEffect(() => {
     // Load global payments on app start
     (async () => {
@@ -143,6 +145,11 @@ export const PaymentProvider = ({ children }) => {
         const { data: customerData } = await api.get(`/customer/${customerId}`);
         if (customerData) {
           setCustomerName(customerData.name || '');
+          // Store customer info globally
+          await api.post('/store-customer', {
+            customerId,
+            customerName: customerData.name || ''
+          });
         }
 
         const { data: cardData } = await api.get(`/payment-methods/${customerId}`);
