@@ -1,0 +1,108 @@
+.saved-cards-dropdown {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.dropdown-label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 1rem;
+}
+
+.select-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.card-select {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2d3748;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.card-select:hover {
+  border-color: #cbd5e0;
+}
+
+.card-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+.select-arrow {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #667eea;
+  transition: transform 0.3s ease;
+}
+
+.card-select:focus + .select-arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.card-select option {
+  padding: 0.5rem;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card-select {
+    padding: 0.875rem 2.5rem 0.875rem 0.875rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .select-arrow {
+    right: 0.875rem;
+  }
+}
+
+.no-cards-message {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 12px;
+  border: 2px dashed rgba(102, 126, 234, 0.2);
+}
+
+.no-cards-message p {
+  color: #667eea;
+  margin: 0 0 1rem 0;
+  font-weight: 500;
+}
+
+.add-card-redirect-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.add-card-redirect-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+} 

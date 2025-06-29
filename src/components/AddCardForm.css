@@ -1,0 +1,246 @@
+.add-card-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.add-card-form .field {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.add-card-form .field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.95rem;
+}
+
+.add-card-form .field label::after {
+  content: '';
+}
+
+.stripe-input,
+.add-card-form input[type="text"],
+.name-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.stripe-element-container {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.stripe-input:focus,
+.add-card-form input[type="text"]:focus,
+.name-input:focus,
+.stripe-element-container:focus-within {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+.stripe-input:hover,
+.add-card-form input[type="text"]:hover,
+.name-input:hover,
+.stripe-element-container:hover {
+  border-color: #cbd5e0;
+}
+
+/* Error states */
+.stripe-input.error,
+.add-card-form input[type="text"].error,
+.name-input.error,
+.stripe-element-container.error {
+  border-color: #e53e3e;
+  background-color: #fed7d7;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+.stripe-input.error:focus,
+.add-card-form input[type="text"].error:focus,
+.name-input.error:focus,
+.stripe-element-container.error:focus-within {
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
+}
+
+.error-message {
+  display: block;
+  color: #e53e3e;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+/* Card input row styling */
+.card-inputs-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.card-inputs-row .field {
+  flex: 1;
+}
+
+/* Submit button */
+.add-card-form button[type="submit"],
+.submit-button {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.add-card-form button[type="submit"]:hover:not(:disabled),
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.add-card-form button[type="submit"]:active:not(:disabled),
+.submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.add-card-form button[type="submit"]:disabled,
+.submit-button:disabled,
+.submit-button.disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+/* Form header */
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-header h3 {
+  color: #2d3748;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.form-header p {
+  color: #718096;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Security icons */
+.security-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #667eea;
+}
+
+.security-info::before {
+  content: '🔒';
+}
+
+/* Loading state */
+.submit-button:disabled {
+  position: relative;
+}
+
+.submit-button:disabled::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  border: 2px solid transparent;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Form validation summary */
+.validation-summary {
+  background: #fed7d7;
+  border: 1px solid #feb2b2;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.validation-summary h4 {
+  color: #e53e3e;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.validation-summary ul {
+  color: #e53e3e;
+  font-size: 0.85rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card-inputs-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .add-card-form {
+    max-width: none;
+  }
+  
+  .stripe-input,
+  .add-card-form input[type="text"],
+  .name-input,
+  .stripe-element-container {
+    padding: 0.875rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .error-message {
+    font-size: 0.8rem;
+  }
+} 

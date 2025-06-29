@@ -1,0 +1,183 @@
+.quick-pay {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.no-cards-warning {
+  background: rgba(255, 193, 7, 0.1);
+  border: 2px dashed rgba(255, 193, 7, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.no-cards-warning p {
+  color: #d69e2e;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Quick Amounts Section */
+.quick-amounts {
+  margin-bottom: 2rem;
+}
+
+.quick-amounts-label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 1rem;
+}
+
+.amount-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.75rem;
+}
+
+.amount-button {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  color: #667eea;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.amount-button:hover {
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.05);
+  transform: translateY(-1px);
+}
+
+.amount-button:active {
+  transform: translateY(0);
+}
+
+.amount-button:disabled {
+  background: #f7fafc;
+  border-color: #e2e8f0;
+  color: #a0aec0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Custom Amount Section */
+.custom-amount {
+  margin-bottom: 2rem;
+}
+
+.amount-label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 1rem;
+}
+
+.amount-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 1rem;
+  color: #718096;
+  font-weight: 600;
+  font-size: 1.1rem;
+  z-index: 1;
+}
+
+.amount-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 2.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2d3748;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.amount-input:hover {
+  border-color: #cbd5e0;
+}
+
+.amount-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+.amount-input::placeholder {
+  color: #a0aec0;
+}
+
+.amount-input:disabled {
+  background: #f7fafc;
+  border-color: #e2e8f0;
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+
+/* Pay Button */
+.pay-button {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.pay-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.pay-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.pay-button:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .amount-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .amount-button {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .amount-input {
+    padding: 0.875rem 0.875rem 0.875rem 2.25rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .currency-symbol {
+    left: 0.875rem;
+  }
+}
