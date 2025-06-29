@@ -226,10 +226,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues:
 
-1. Check the [Issues](https://github.com/yourusername/paymenthub/issues) page
-2. Review the Stripe documentation
-3. Ensure all environment variables are set correctly
-4. Check browser console for error messages
+1. Review the Stripe documentation
+2. Ensure all environment variables are set correctly
+3. Check browser console for error messages
 
 ## 🙏 Acknowledgments
 
@@ -239,4 +238,4 @@ If you encounter any issues:
 
 ---
 
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+Made with ❤️ by [ModupeD](https://github.com/ModupeD)
