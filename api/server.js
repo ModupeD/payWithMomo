@@ -183,7 +183,13 @@ app.post('/api/store-customer', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () =>
-  console.log(`Stripe API server listening → http://localhost:${PORT}`)
-); 
+// For Vercel serverless functions, export the app
+export default app;
+
+// For local development, start the server
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 4000;
+  app.listen(PORT, () =>
+    console.log(`Stripe API server listening → http://localhost:${PORT}`)
+  );
+} 
