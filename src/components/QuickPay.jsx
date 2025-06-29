@@ -25,7 +25,21 @@ const QuickPay = () => {
       setAmount('');
       alert('Payment successful! 🎉');
     } catch (err) {
-      alert(err.response?.data?.error || err.message);
+      console.error('Payment error:', err);
+      
+      let errorMessage = 'Payment failed. Please try again.';
+      
+      if (err.response?.data?.error) {
+        errorMessage = err.response.data.error;
+      } else if (err.message) {
+        errorMessage = err.message;
+      } else if (typeof err === 'string') {
+        errorMessage = err;
+      } else if (err.error) {
+        errorMessage = err.error;
+      }
+      
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

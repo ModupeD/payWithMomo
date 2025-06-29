@@ -158,8 +158,21 @@ const AddCardForm = ({ onSuccess }) => {
       
       if (onSuccess) onSuccess();
     } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.error || err.message);
+      console.error('Card setup error:', err);
+      
+      let errorMessage = 'Failed to save card. Please try again.';
+      
+      if (err.response?.data?.error) {
+        errorMessage = err.response.data.error;
+      } else if (err.message) {
+        errorMessage = err.message;
+      } else if (typeof err === 'string') {
+        errorMessage = err;
+      } else if (err.error) {
+        errorMessage = err.error;
+      }
+      
+      alert(errorMessage);
     }
     setLoading(false);
   };
