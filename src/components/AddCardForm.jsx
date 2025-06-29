@@ -9,7 +9,7 @@ const AddCardForm = ({ onSuccess }) => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const [clientSecret, setClientSecret] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [fullName, setFullName] = useState('');
   
@@ -77,18 +77,7 @@ const AddCardForm = ({ onSuccess }) => {
     return hasNoErrors && hasRequiredFields;
   };
 
-  // Fetch a new setup-intent whenever the customer id changes
-  useEffect(() => {
-    if (!customerId) return; // wait for customer creation
-    (async () => {
-      try {
-        const { data } = await api.post('/create-setup-intent', { customerId });
-        setClientSecret(data.client_secret);
-      } catch (err) {
-        console.error('Failed to create SetupIntent', err);
-      }
-    })();
-  }, [customerId]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -114,15 +103,20 @@ const AddCardForm = ({ onSuccess }) => {
         setCustomerId(data.id); // update context for rest of app
         setCustomerName(fullName.trim());
       }
-      // Ensure we have a client secret for the (new) customer
-      let secret = clientSecret;
-      if (!secret) {
-        const { data } = await api.post('/create-setup-intent', { customerId: activeCustomerId });
-        secret = data.client_secret;
-        setClientSecret(secret);
-      }
+      // Always create a fresh setup intent for each card save attempt
+      console.log('Creating new setup intent for customer:', activeCustomerId);
+      const { data } = await api.post('/create-setup-intent', { customerId: activeCustomerId });
+      const secret = data.client_secret;
+      console.log('Got setup intent:', data.id, 'with secret:', secret?.substring(0, 20) + '...');
 
       const cardNumberElement = elements.getElement(CardNumberElement);
+      
+      console.log('About to confirm setup with:', {
+        secret: secret,
+        customerName: fullName.trim(),
+        hasCardElement: !!cardNumberElement
+      });
+      
       const { setupIntent, error } = await stripe.confirmCardSetup(secret, {
         payment_method: {
           card: cardNumberElement,
@@ -132,6 +126,8 @@ const AddCardForm = ({ onSuccess }) => {
         },
       });
       
+      console.log('Setup intent result:', { setupIntent, error });
+      
       if (error) {
         // Handle Stripe errors
         if (error.type === 'card_error') {
@@ -139,15 +135,20 @@ const AddCardForm = ({ onSuccess }) => {
         } else {
           alert(error.message);
         }
-        setLoading(false);
         return;
       }
 
+      console.log('About to attach payment method:', setupIntent.payment_method);
       await api.post('/attach-payment-method', {
         customerId: activeCustomerId,
         payment_method: setupIntent.payment_method,
       });
+      console.log('Payment method attached successfully');
+      
+      console.log('About to refresh cards...');
       await refreshCards();
+      console.log('Cards refreshed successfully');
+      
       setSelectedCardId(setupIntent.payment_method);
       
       // Reset form
@@ -159,11 +160,21 @@ const AddCardForm = ({ onSuccess }) => {
       if (onSuccess) onSuccess();
     } catch (err) {
       console.error('Card setup error:', err);
+      console.error('Error details:', {
+        response: err.response,
+        message: err.message,
+        status: err.response?.status,
+        data: err.response?.data
+      });
       
       let errorMessage = 'Failed to save card. Please try again.';
       
       if (err.response?.data?.error) {
         errorMessage = err.response.data.error;
+      } else if (err.response?.status === 404) {
+        errorMessage = 'API endpoint not found. Please check your deployment.';
+      } else if (err.response?.status >= 500) {
+        errorMessage = 'Server error. Please try again later.';
       } else if (err.message) {
         errorMessage = err.message;
       } else if (typeof err === 'string') {
@@ -173,8 +184,9 @@ const AddCardForm = ({ onSuccess }) => {
       }
       
       alert(errorMessage);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   // Element styling helper with error states

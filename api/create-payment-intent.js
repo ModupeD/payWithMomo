@@ -15,23 +15,19 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Debug logging
-  console.log('Create customer request:', {
-    method: req.method,
-    body: req.body,
-    hasStripeKey: !!process.env.STRIPE_SECRET_KEY
-  });
-
   if (req.method === 'POST') {
     try {
-      const { name } = req.body;
-      if (!name) {
-        return res.status(400).json({ error: 'Name is required' });
-      }
-      const customer = await stripe.customers.create({ name });
-      res.json({ id: customer.id });
+      const { customerId, payment_method, amount } = req.body; // amount in **cents**
+      const intent = await stripe.paymentIntents.create({
+        customer: customerId,
+        payment_method,
+        amount,
+        currency: 'usd',
+        confirm: true,
+        off_session: true,
+      });
+      res.json(intent);
     } catch (err) {
-      console.error(err);
       res.status(400).json({ error: err.message });
     }
   } else {

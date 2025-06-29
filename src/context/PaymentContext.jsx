@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
-/*──────────────────────────────────
-  Local Storage Keys
-  ──────────────────────────────────*/
+
 const STORAGE_KEYS = {
   PAYMENTS: 'paymentHub_payments',
   CARDS: 'paymentHub_cards',
@@ -13,9 +11,7 @@ const STORAGE_KEYS = {
   SESSION_ID: 'paymentHub_sessionId'
 };
 
-/*──────────────────────────────────
-  Storage utilities
-  ──────────────────────────────────*/
+
 const storage = {
   get: (key) => {
     try {
@@ -113,9 +109,7 @@ export const PaymentProvider = ({ children }) => {
     });
   };
 
-  /* ─────────────────────────────────
-     Load cards & payments once
-  ──────────────────────────────────*/
+
   useEffect(() => {
     // Load global payments on app start
     (async () => {
@@ -149,11 +143,6 @@ export const PaymentProvider = ({ children }) => {
         const { data: customerData } = await api.get(`/customer/${customerId}`);
         if (customerData) {
           setCustomerName(customerData.name || '');
-          // Store customer info globally
-          await api.post('/store-customer', {
-            customerId,
-            customerName: customerData.name || ''
-          });
         }
 
         const { data: cardData } = await api.get(`/payment-methods/${customerId}`);
@@ -196,7 +185,7 @@ export const PaymentProvider = ({ children }) => {
   ──────────────────────────────────*/
   const storePaymentGlobally = async (payment) => {
     try {
-      await api.post('/store-payment', { payment });
+      await api.post('/global-payments', { payment });
     } catch (err) {
       console.warn('Could not store payment globally:', err.message);
     }
