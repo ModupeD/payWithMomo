@@ -188,6 +188,29 @@ const AddCardForm = ({ onSuccess }) => {
         <p>Your card information is encrypted and secure</p>
       </div>
 
+      {/* Test Cards Information */}
+      <div className="test-cards-info">
+        <div className="test-cards-header">
+          <span>Test Mode - Use this card to try payments</span>
+        </div>
+        <div className="test-card-display">
+          <div className="test-card-number">4242 4242 4242 4242</div>
+          <div className="test-card-details">
+            <span>12/34</span>
+            <span>123</span>
+            <span>Any Name</span>
+          </div>
+        </div>
+        <a 
+          href="https://docs.stripe.com/testing" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="test-cards-link"
+        >
+          More test cards
+        </a>
+      </div>
+
       <div className="field">
         <label>Your name *</label>
         <input
