@@ -201,7 +201,6 @@
   background: linear-gradient(90deg, #4299e1, #3182ce);
 }
 
-/* Icon indicators for each card */
 .summary-card:nth-child(1) .summary-value::after {
   content: '';
   display: block;
@@ -253,7 +252,6 @@
   font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
-/* Payments Table */
 .payments-table-container {
   background: white;
   border-radius: 16px;
@@ -294,7 +292,6 @@
   border-bottom: none;
 }
 
-/* Table Cell Styling */
 .date-cell {
   display: flex;
   flex-direction: column;

@@ -83,7 +83,6 @@ const AddCardForm = ({ onSuccess }) => {
     e.preventDefault();
     if (!stripe || !elements) return;
 
-    // Validate all fields before submission
     const nameValid = validateField('fullName', fullName);
     setTouched({ fullName: true, cardNumber: true, cardExpiry: true, cardCvc: true });
 
@@ -95,7 +94,6 @@ const AddCardForm = ({ onSuccess }) => {
 
     let activeCustomerId = customerId;
 
-    // If no customer exists yet, create one using the provided name
     try {
       if (!activeCustomerId) {
         const { data } = await api.post('/create-customer', { name: fullName.trim() });
@@ -103,7 +101,6 @@ const AddCardForm = ({ onSuccess }) => {
         setCustomerId(data.id); // update context for rest of app
         setCustomerName(fullName.trim());
       }
-      // Always create a fresh setup intent for each card save attempt
       console.log('Creating new setup intent for customer:', activeCustomerId);
       const { data } = await api.post('/create-setup-intent', { customerId: activeCustomerId });
       const secret = data.client_secret;
@@ -126,7 +123,6 @@ const AddCardForm = ({ onSuccess }) => {
         },
       });
       
-      console.log('Setup intent result:', { setupIntent, error });
       
       if (error) {
         // Handle Stripe errors
@@ -138,28 +134,21 @@ const AddCardForm = ({ onSuccess }) => {
         return;
       }
 
-      console.log('About to attach payment method:', setupIntent.payment_method);
       await api.post('/attach-payment-method', {
         customerId: activeCustomerId,
         payment_method: setupIntent.payment_method,
       });
-      console.log('Payment method attached successfully');
-      
-      console.log('About to refresh cards...');
+
       await refreshCards();
-      console.log('Cards refreshed successfully');
       
-      // Show success feedback & focus back to the saved-cards section
-      alert('✅ Card saved successfully!');
-      // Smooth-scroll to the saved cards dropdown if it exists
-      document.querySelector('.saved-cards-dropdown')?.scrollIntoView({
+      alert('✅ Card saved! You can now make a payment.');
+      document.querySelector('.quick-pay')?.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
       });
       
       setSelectedCardId(setupIntent.payment_method);
       
-      // Reset form
       setFullName('');
       setErrors({});
       setTouched({});
@@ -197,7 +186,6 @@ const AddCardForm = ({ onSuccess }) => {
     }
   };
 
-  // Element styling helper with error states
   const getElementOptions = (elementType) => ({
     style: {
       base: {
@@ -221,7 +209,6 @@ const AddCardForm = ({ onSuccess }) => {
         <p>Your card information is encrypted and secure</p>
       </div>
 
-      {/* Test Cards Information */}
       <div className="test-cards-info">
         <div className="test-cards-header">
           <span>Test Mode - Use this card to try payments</span>
@@ -314,7 +301,7 @@ const AddCardForm = ({ onSuccess }) => {
       </button>
 
       <div className="security-info">
-        Your payment information is protected with bank-level security
+        This is dev mode to test payments
       </div>
     </form>
   );

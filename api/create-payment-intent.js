@@ -5,7 +5,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 export default async function handler(req, res) {
-  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -17,7 +16,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { customerId, payment_method, amount } = req.body; // amount in **cents**
+      const { customerId, payment_method, amount } = req.body; 
       const intent = await stripe.paymentIntents.create({
         customer: customerId,
         payment_method,

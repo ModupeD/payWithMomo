@@ -130,7 +130,6 @@
   border-radius: 2px;
 }
 
-/* Section highlighting for navigation */
 .highlight-section {
   animation: highlightPulse 2s ease-in-out;
   border: 2px solid #667eea;

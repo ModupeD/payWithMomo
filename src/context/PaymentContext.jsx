@@ -178,23 +178,18 @@ export const PaymentProvider = ({ children }) => {
           mergePayments(mapped);
         }
         
-        // Update last fetch time
         storage.set(`lastFetch_${customerId}`, now);
       } catch (err) {
-        // Handle transient 404s (customer not yet fully available right after creation)
         if (err?.response?.status === 404) {
           console.info('Stripe returned 404 (customer not yet propagated) – will retry automatically');
         } else {
-          // Log other errors but don't fall back to mock data
           console.warn('Could not fetch Stripe data:', err.message);
         }
       }
     })();
   }, [customerId]);
 
-  /* ─────────────────────────────────
-     Store payment globally
-  ──────────────────────────────────*/
+
   const storePaymentGlobally = async (payment) => {
     try {
       await api.post('/global-payments', { payment });
@@ -203,9 +198,6 @@ export const PaymentProvider = ({ children }) => {
     }
   };
 
-  /* ─────────────────────────────────
-     Make a one-time payment
-  ──────────────────────────────────*/
   const pay = async (amountDollars) => {
     const cents = Math.round(amountDollars * 100);
     if (!customerId) throw new Error('Customer not set');
@@ -214,7 +206,6 @@ export const PaymentProvider = ({ children }) => {
       payment_method: selectedCardId,
       amount: cents,
     });
-    // Add new payment locally so dashboard shows immediately
     const cardInfo = cards.find((c) => c.id === selectedCardId);
     const newPayment = {
       id: data.id,
@@ -227,16 +218,12 @@ export const PaymentProvider = ({ children }) => {
     };
     setPayments((prev) => [...prev, newPayment]);
     
-    // Store globally for cross-device access
     await storePaymentGlobally(newPayment);
     
     return data;
   };
 
-  /* ─────────────────────────────────
-     Add a new card (placeholder, real
-     logic resides in AddCardForm)
-  ──────────────────────────────────*/
+ 
   const refreshCards = async () => {
     if (!customerId) return;
     const { data } = await api.get(`/payment-methods/${customerId}`);
@@ -251,7 +238,6 @@ export const PaymentProvider = ({ children }) => {
         setSelectedCardId(simplified[0].id);
       }
 
-      // backfill last4 for existing payments
       setPayments((prev) => prev.map((p) => {
         if (!p.last4) {
           const card = simplified.find((c) => c.id === p.cardId);
@@ -262,9 +248,7 @@ export const PaymentProvider = ({ children }) => {
     }
   };
 
-  /* ─────────────────────────────────
-     Clear all data (for testing/reset)
-  ──────────────────────────────────*/
+
   const clearAllData = () => {
     Object.values(STORAGE_KEYS).forEach(key => storage.remove(key));
     setCustomerId(null);
