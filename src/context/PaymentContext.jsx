@@ -181,8 +181,13 @@ export const PaymentProvider = ({ children }) => {
         // Update last fetch time
         storage.set(`lastFetch_${customerId}`, now);
       } catch (err) {
-        // Log error but don't fall back to mock data - start with empty state
-        console.warn('Could not fetch Stripe data:', err.message);
+        // Handle transient 404s (customer not yet fully available right after creation)
+        if (err?.response?.status === 404) {
+          console.info('Stripe returned 404 (customer not yet propagated) – will retry automatically');
+        } else {
+          // Log other errors but don't fall back to mock data
+          console.warn('Could not fetch Stripe data:', err.message);
+        }
       }
     })();
   }, [customerId]);

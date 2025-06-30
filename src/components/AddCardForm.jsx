@@ -149,6 +149,14 @@ const AddCardForm = ({ onSuccess }) => {
       await refreshCards();
       console.log('Cards refreshed successfully');
       
+      // Show success feedback & focus back to the saved-cards section
+      alert('✅ Card saved successfully!');
+      // Smooth-scroll to the saved cards dropdown if it exists
+      document.querySelector('.saved-cards-dropdown')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+      
       setSelectedCardId(setupIntent.payment_method);
       
       // Reset form
