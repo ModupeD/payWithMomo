@@ -11,6 +11,7 @@ const AddCardForm = ({ onSuccess }) => {
 
 
   const [loading, setLoading] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
   const [fullName, setFullName] = useState('');
   
   const [errors, setErrors] = useState({});
@@ -44,7 +45,6 @@ const AddCardForm = ({ onSuccess }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle field blur for validation
   const handleBlur = (fieldName) => {
     setTouched({ ...touched, [fieldName]: true });
     if (fieldName === 'fullName') {
@@ -64,13 +64,11 @@ const AddCardForm = ({ onSuccess }) => {
     
     setStripeErrors(newStripeErrors);
     
-    // Mark as touched when user starts typing
     if (event.complete || event.error) {
       setTouched({ ...touched, [elementType]: true });
     }
   };
 
-  // Check if form is valid
   const isFormValid = () => {
     const hasNoErrors = Object.keys(errors).length === 0 && Object.keys(stripeErrors).length === 0;
     const hasRequiredFields = fullName.trim().length > 0;
@@ -90,6 +88,7 @@ const AddCardForm = ({ onSuccess }) => {
       return;
     }
 
+    setSaveSuccess(false);
     setLoading(true);
 
     let activeCustomerId = customerId;
@@ -141,6 +140,7 @@ const AddCardForm = ({ onSuccess }) => {
 
       await refreshCards();
       
+      setSaveSuccess(true);
       alert('✅ Card saved! You can now make a payment.');
       document.querySelector('.quick-pay')?.scrollIntoView({
         behavior: 'smooth',
@@ -297,7 +297,7 @@ const AddCardForm = ({ onSuccess }) => {
         disabled={loading || !stripe || !isFormValid()}
         className={`submit-button ${!isFormValid() ? 'disabled' : ''}`}
       >
-        {loading ? 'Saving…' : 'Save Card'}
+        {loading ? 'Saving…' : saveSuccess ? 'Saved ✅' : 'Save Card'}
       </button>
 
       <div className="security-info">
