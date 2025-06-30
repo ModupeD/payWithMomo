@@ -14,9 +14,9 @@ const PaymentHistoryDashboard = () => {
       const now = new Date();
       setLastSync(now);
       localStorage.setItem('paymentHub_lastSync', now.toISOString());
-      alert('Data synced successfully! 🎉');
+      window.alert('Data synced successfully! 🎉');
     } catch (err) {
-      alert('Sync failed. Please try again.');
+      window.alert('Sync failed. Please try again.');
     }
   };
 

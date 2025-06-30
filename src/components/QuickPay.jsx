@@ -10,12 +10,12 @@ const QuickPay = () => {
   const handlePay = async () => {
     const amt = parseFloat(amount);
     if (!amt || isNaN(amt) || amt <= 0) {
-      alert('Please enter a valid amount');
+      window.alert('Please enter a valid amount');
       return;
     }
     
     if (!cards || cards.length === 0) {
-      alert('Please add a payment method first');
+      window.alert('Please add a payment method first');
       return;
     }
     
@@ -23,7 +23,7 @@ const QuickPay = () => {
     try {
       await pay(amt);
       setAmount('');
-      alert('Payment successful! 🎉');
+      window.alert('Payment successful! 🎉');
     } catch (err) {
       console.error('Payment error:', err);
       
@@ -39,7 +39,7 @@ const QuickPay = () => {
         errorMessage = err.error;
       }
       
-      alert(errorMessage);
+      window.alert(errorMessage);
     } finally {
       setLoading(false);
     }

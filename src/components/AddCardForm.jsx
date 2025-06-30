@@ -128,7 +128,7 @@ const AddCardForm = ({ onSuccess }) => {
         if (error.type === 'card_error') {
           setStripeErrors({ cardNumber: error.message });
         } else {
-          alert(error.message);
+          window.alert(error.message);
         }
         return;
       }
@@ -141,7 +141,7 @@ const AddCardForm = ({ onSuccess }) => {
       await refreshCards();
       
       setSaveSuccess(true);
-      alert('✅ Card saved! You can now make a payment.');
+      window.alert('✅ Card saved! You can now make a payment.');
       document.querySelector('.quick-pay')?.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
@@ -180,7 +180,7 @@ const AddCardForm = ({ onSuccess }) => {
         errorMessage = err.error;
       }
       
-      alert(errorMessage);
+      window.alert(errorMessage);
     } finally {
       setLoading(false);
     }
