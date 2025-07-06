@@ -138,9 +138,10 @@ const AddCardForm = ({ onSuccess }) => {
         payment_method: setupIntent.payment_method,
       });
 
-      await refreshCards();
+      refreshCards().catch((err) => console.warn('Could not refresh cards:', err));
       
       setSaveSuccess(true);
+      setLoading(false);
       window.alert('✅ Card saved! You can now make a payment.');
       document.querySelector('.quick-pay')?.scrollIntoView({
         behavior: 'smooth',
@@ -182,6 +183,7 @@ const AddCardForm = ({ onSuccess }) => {
       
       window.alert(errorMessage);
     } finally {
+      // Safety net – ensure spinner stops even if something above throws
       setLoading(false);
     }
   };
